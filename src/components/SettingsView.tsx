@@ -49,6 +49,7 @@ import {
 } from '../types';
 import { AppleCapsuleSlider } from './AppleCapsuleSlider';
 import { FlatHandIcon } from './FlatHandIcon';
+import { PWAInstallButton } from './PWAInstallButton';
 import { playMinimalPomodoroSound } from '../utils/pomodoroAudio';
 import {
   downloadFullWorkspaceBackupFile,
@@ -1550,6 +1551,18 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   <ShieldCheck className="w-4 h-4" />
                   ۱۰۰٪ محلی و آفلاین روی مرورگر شما
                 </span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-md p-5 border border-neutral-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h4 className="text-sm font-bold text-neutral-900">نصب برنامه روی دستگاه (PWA)</h4>
+                <p className="text-xs text-neutral-500 mt-1">
+                  نرم‌افزار را بدون نیاز به دانلود از استور، به صورت مستقیم روی دسکتاپ یا صفحه اصلی گوشی نصب کنید.
+                </p>
+              </div>
+              <div className="shrink-0 sm:w-48">
+                <PWAInstallButton variant="full" />
               </div>
             </div>
 
