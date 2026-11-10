@@ -1,18 +1,17 @@
-const CACHE_NAME = 'studydesk-offline-v1';
-
-const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/app-icon.svg',
-  '/pdf.worker.min.mjs',
-  '/pdf.worker.mjs'
-];
+const CACHE_NAME = 'studydesk-offline-v2';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
+      const scope = self.registration.scope;
+      return cache.addAll([
+        scope,
+        new URL('index.html', scope).href,
+        new URL('manifest.json', scope).href,
+        new URL('app-icon.svg', scope).href,
+        new URL('icon-192.png', scope).href,
+        new URL('icon-512.png', scope).href,
+      ]);
     }).then(() => self.skipWaiting())
   );
 });
@@ -64,7 +63,7 @@ self.addEventListener('fetch', (event) => {
       }).catch(() => {
         // If offline and request is for page navigation, fallback to index.html
         if (event.request.mode === 'navigate') {
-          return caches.match('/index.html') || caches.match('/');
+          return caches.match(new URL('index.html', self.registration.scope).href) || caches.match(self.registration.scope);
         }
       });
     })
