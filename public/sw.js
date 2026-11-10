@@ -1,4 +1,4 @@
-const CACHE_NAME = 'studydesk-offline-v2';
+const CACHE_NAME = 'studydesk-offline-v3';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -44,7 +44,7 @@ self.addEventListener('fetch', (event) => {
       if (cachedResponse) {
         // Return cached and update in background if online
         fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
+          if (networkResponse && (networkResponse.status === 200 || networkResponse.status === 0)) {
             caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
           }
         }).catch(() => {});
@@ -52,13 +52,16 @@ self.addEventListener('fetch', (event) => {
       }
 
       return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+        if (!networkResponse || (networkResponse.status !== 200 && networkResponse.status !== 0)) {
           return networkResponse;
         }
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
+        // Cache basic, cors, and opaque responses (fonts, scripts, assets)
+        if (['basic', 'cors', 'opaque'].includes(networkResponse.type)) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
         return networkResponse;
       }).catch(() => {
         // If offline and request is for page navigation, fallback to index.html
