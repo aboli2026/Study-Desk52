@@ -11,7 +11,6 @@ import {
 } from 'lucide-react';
 import { ActiveTab, StudyFile } from '../types';
 import { useDisplayRefreshRate } from '../utils/performanceEngine';
-import { PWAInstallButton } from './PWAInstallButton';
 
 interface NavigationProps {
   activeTab: ActiveTab;
@@ -71,16 +70,13 @@ export const Navigation: React.FC<NavigationProps> = ({
           ========================================================================= */}
       <div className="hidden md:flex w-64 lg:w-72 h-full bg-white rounded-2xl shadow-xl flex-col shrink-0 select-none overflow-hidden">
         {/* Brand Header */}
-        <div className="p-3.5 border-b border-neutral-100 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-neutral-900 text-white flex items-center justify-center shadow-md shrink-0">
-              <BookOpen className="w-4 h-4" />
-            </div>
-            <div className="min-w-0">
-              <h1 className="text-sm font-bold text-neutral-900 truncate">میز مطالعه</h1>
-            </div>
+        <div className="p-4 border-b border-neutral-100 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-neutral-900 text-white flex items-center justify-center shadow-md">
+            <BookOpen className="w-5 h-5" />
           </div>
-          <PWAInstallButton className="shrink-0" />
+          <div>
+            <h1 className="text-sm font-bold text-neutral-900">میز مطالعه</h1>
+          </div>
         </div>
 
         {/* Navigation Items List */}
